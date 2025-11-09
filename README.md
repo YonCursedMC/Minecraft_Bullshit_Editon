@@ -98,7 +98,7 @@ https://files.betacraft.uk/server-archive/beta/b1.2_01.jar<br>
 - Download Minecraft_Bullshit_Editon_server.zip from https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases.
 - Extract the contents of 1.1 using 7-zip or similar, and overwrite the contents of Minecraft_Bullshit_Editon_server.zip with the contents of 1.1.
 - Then (revert to jar), launch the server, and if it's running Minecraft_Bullshit_Editon, it's complete.
-*It works differently from the client, is not perfect, and has many bugs! Please be tolerant of bugs when playing! Please be patient when playing! <br>
+*It works differently from the client, is not perfect, and has many bugs! Please be tolerant of bugs when playing! <br>
 
 ## Credits
 Credits
