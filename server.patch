@@ -1,0 +1,1185 @@
+--- net/minecraft/src/MobSpawnerBase.java
++++ net/minecraft/src/MobSpawnerBase.java
+@@ -21,7 +21,7 @@
+ 	public byte fillerBlock = (byte)Block.dirt.blockID;
+ 	public int field_6161_q = 5169201;
+ 	protected Class[] biomeMonsters = new Class[]{EntitySpider.class, EntityZombie.class, EntitySkeleton.class, EntityCreeper.class};
+-	protected Class[] biomeCreatures = new Class[]{EntitySheep.class, EntityPig.class, EntityChicken.class, EntityCow.class};
++	protected Class[] biomeCreatures = new Class[]{EntitySheep.class, EntityPig.class, EntityChicken.class, EntityCow.class, EntityDocker.class};
+ 	protected Class[] biomeWaterCreatures = new Class[]{EntitySquid.class};
+ 	private static MobSpawnerBase[] biomeLookupTable = new MobSpawnerBase[4096];
+ 
+--- net/minecraft/src/World.java
++++ net/minecraft/src/World.java
+@@ -1204,6 +1204,10 @@
+ 		return this.newExplosion(var1, var2, var4, var6, var8, false);
+ 	}
+ 
++	public Explosion createExplosion(Entity var1, float var2) {
++		return this.newExplosion(var1, var1.posX, var1.posY, var1.posZ, var2, false);
++	}
++
+ 	public Explosion newExplosion(Entity var1, double var2, double var4, double var6, float var8, boolean var9) {
+ 		Explosion var10 = new Explosion(this, var1, var2, var4, var6, var8);
+ 		var10.field_12031_a = var9;
+@@ -1349,7 +1353,199 @@
+ 		this.field_21120_L = var2;
+ 	}
+ 
++	public void event(EntityPlayerMP playerSP) {
++		playerSP.mcServer.configManager.sendPacketToAllPlayers(new Packet81Sound("/sounds/event.wav"));
++		String chat;
++		switch(new Random().nextInt(4)) {
++		case 0:
++			chat = "I h******pe y*****u're h***i. :/";
++			break;
++		case 1:
++			chat = "Y********u a******e yo*********.. :/";
++			break;
++		case 2:
++			chat = "May**********e th********t's wh*********t you wa************t, m*************ybe n**********t. :/";
++			break;
++		case 3:
++			chat = "It ***********ay ************ot b************ he*********lo. :/";
++			break;
++		default:
++			chat = "I h******pe y*****u're h***i. :/";
++			break;
++		}
++		playerSP.mcServer.configManager.sendPacketToAllPlayers(new Packet3Chat(chat));
++	}
++
++	public void event0(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityAP entityAP = new EntityAP(this, playerSP.mcServer);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityAP.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityAP);
++		entityAP.spawnExplosionParticle();
++	}
++
++	public void event1(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityBS entityBS = new EntityBS(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityBS.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityBS);
++		entityBS.spawnExplosionParticle();
++	}
++
++	public void event2(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityX entityX = new EntityX(this, playerSP.mcServer);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityX.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityX);
++		entityX.spawnExplosionParticle();
++	}
++
++	public void event3(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntitySNS entitySNS = new EntitySNS(this, playerSP.mcServer);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entitySNS.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entitySNS);
++		entitySNS.spawnExplosionParticle();
++	}
++
++	public void event4(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		this.createExplosion(playerSP, playerSP.posX + 18, playerSP.posY, playerSP.posZ, 6.66F);
++	}
++
++	public void event5(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		playerSP.mcServer.configManager.sendPacketToAllPlayers(new Packet80Event(0));
++	}
++
++	public void event6(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		playerSP.inventory.dropAllItems();
++	}
++
++	public void event7(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityHappy entityHappy = new EntityHappy(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityHappy.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityHappy);
++		entityHappy.spawnExplosionParticle();
++	}
++
++	public void event8(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityWonderful entityWonderful = new EntityWonderful(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityWonderful.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityWonderful);
++		entityWonderful.spawnExplosionParticle();
++	}
++
++	public void event9(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityAlex entityAlex = new EntityAlex(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityAlex.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityAlex);
++		entityAlex.spawnExplosionParticle();
++	}
++
++
++	public void event10(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityAmazing entityAmazing = new EntityAmazing(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityAmazing.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityAmazing);
++		entityAmazing.spawnExplosionParticle();
++	}
++
++	public void event11(EntityPlayerMP playerSP) {
++		if(new Random().nextInt(4) == 0) {
++			this.event(playerSP);
++			playerSP.field_20908_a.func_41_a(this.spawnX, this.spawnY, this.spawnZ, playerSP.rotationYaw, playerSP.rotationPitch);
++		}
++	}
++
++	public void event12(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		for(int i = 0; i < 32; i++) {
++			for(int j = 0; j < 32; j++) {
++				for(int k = 0; k < 32; k++) {
++					if(new Random().nextBoolean()) {
++						this.setBlock((int)playerSP.posX + 2 + i, (int)playerSP.posY + 6 + j, (int)playerSP.posZ + k, Block.lavahome.blockID);
++					}
++				}
++			}
++		}
++	}
++
++	public void event13(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		new WorldGenTenBig().generate(this, new Random(), (int)playerSP.posX + 3, (int)playerSP.posY, (int)playerSP.posZ);
++	}
++
+ 	public void tick() {
++		List<EntityPlayerMP> playerSPList = this.playerEntities;
++		if(!playerSPList.isEmpty()) {
++			EntityPlayerMP playerSP = playerSPList.get(new Random().nextInt(playerSPList.size()));
++			switch(new Random().nextInt(20 * 60 * 15)) {
++			case 0:
++				this.event0(playerSP);
++				break;
++			case 1:
++				this.event1(playerSP);
++				break;
++			case 2:
++				this.event2(playerSP);
++				break;
++			case 3:
++				this.event3(playerSP);
++				break;
++			case 4:
++				this.event4(playerSP);
++				break;
++			case 5:
++				this.event5(playerSP);
++				break;
++			case 6:
++				this.event6(playerSP);
++				break;
++			case 7:
++				this.event7(playerSP);
++				break;
++			case 8:
++				this.event8(playerSP);
++				break;
++			case 9:
++				this.event9(playerSP);
++				break;
++			case 10:
++				this.event10(playerSP);
++				break;
++			case 11:
++				this.event11(playerSP);
++				break;
++			case 12:
++				this.event12(playerSP);
++				break;
++			case 13:
++				this.event13(playerSP);
++				break;
++			}
++		}
+ 		SpawnerAnimals.performSpawning(this, this.field_21121_K, this.field_21120_L);
+ 		this.chunkProvider.func_361_a();
+ 		int var1 = this.calculateSkylightSubtracted(1.0F);
+--- /dev/null
++++ net/minecraft/src/EntityHello.java
+@@ -1,0 +1,57 @@
++package net.minecraft.src;
++
++import java.util.List;
++import java.util.Random;
++
++public class EntityHello extends EntityAnimals {
++
++	public EntityHello(World var1) {
++		super(var1);
++		this.texture = "/mob/sheep.png";
++		this.moveSpeed = 2.0F;
++		this.attackStrength = 0;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty()) {
++			return;
++		}
++		List<EntityPlayerMP> playerSPList = this.worldObj.playerEntities;
++		for(EntityPlayerMP playerSP : playerSPList) {
++			if(new Random().nextInt(20 * 6) == 0) {
++				this.worldObj.createExplosion(playerSP, 10.0F);
++			}
++			if(new Random().nextInt(20 * 6) == 0) {
++				this.worldObj.worldTime = new Random().nextInt(24000);
++			}
++			if(new Random().nextInt(20 * 6) == 0) {
++				playerSP.health = 10 + new Random().nextInt(10);
++			}
++			if(new Random().nextInt(20 * 6) == 0) {
++				playerSP.setRotation(new Random().nextFloat() * 360, new Random().nextFloat() * 180);
++			}
++			playerSP.inventory.dropAllItems();
++			if(new Random().nextInt(20 * 6) == 0) {
++			}
++			if(new Random().nextInt(20 * 6) == 0) {
++				playerSP.field_20908_a.sendPacket(new Packet81Sound("/sounds/BS0.wav"));
++			}
++		}
++		if(new Random().nextInt(20 * 60) == 0) {
++			this.setEntityDead();
++		}
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/EntityX.java
+@@ -1,0 +1,46 @@
++package net.minecraft.src;
++
++import net.minecraft.server.MinecraftServer;
++import java.util.Random;
++
++public class EntityX extends EntityAnimals {
++
++	MinecraftServer mcs;
++
++	public EntityX(World var1) {
++		super(var1);
++		this.texture = "/mob/x.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public EntityX(World var1, MinecraftServer mcs) {
++		super(var1);
++		this.mcs = mcs;
++		this.texture = "/mob/x.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty() && this.mcs == null) {
++			return;
++		}
++		if(new Random().nextInt(20) == 0) {
++			this.worldObj.worldTime = new Random().nextInt(24000);
++		}
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/WorldGenTenAlex.java
+@@ -1,0 +1,26 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class WorldGenTenAlex extends WorldGenerator {
++	public boolean generate(World var1, Random var2, int var3, int var4, int var5) {
++		boolean var6 = new Random().nextBoolean();
++		int petrol = new Random().nextInt(2);
++
++		int var7;
++		for(var7 = 0; var7 < 4; ++var7) {
++			var1.setBlock(var3, var4 + var7, var5, Block.bedrock.blockID);
++		}
++
++		for(var7 = 0; var7 < 3; ++var7) {
++			if(var7 != 1) {
++				if(var6) {
++					var1.setBlock(var3 + (var7 - 1), var4 + 1 + petrol, var5, Block.bedrock.blockID);
++				} else {
++					var1.setBlock(var3, var4 + 1 + petrol, var5 + (var7 - 1), Block.bedrock.blockID);
++				}
++			}
++		}
++		return true;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/EntityWonderful.java
+@@ -1,0 +1,31 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class EntityWonderful extends EntityAnimals {
++	public EntityWonderful(World var1) {
++		super(var1);
++		this.texture = "/mob/wonderful.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 2;
++	}
++
++	public void onLivingUpdate() {
++		if(this.worldObj.playerEntities.isEmpty()){
++			return;
++		}
++		super.onLivingUpdate();
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- net/minecraft/src/NetHandler.java
++++ net/minecraft/src/NetHandler.java
+@@ -177,4 +177,12 @@
+ 	public void func_21004_a(Packet54 var1) {
+ 		this.registerPacket(var1);
+ 	}
++
++	public void handleEvent(Packet80Event var1) {
++		this.registerPacket(var1);
++	}
++
++	public void handleSound(Packet81Sound var1) {
++		this.registerPacket(var1);
++	}
+ }
+--- net/minecraft/src/NetServerHandler.java
++++ net/minecraft/src/NetServerHandler.java
+@@ -343,6 +343,20 @@
+ 
+ 			if(var2.startsWith("/")) {
+ 				this.func_4010_d(var2);
++			} else if(var2.equals("Hello") || var2.equals("hello")) {
++				this.playerEntity.worldObj.event(this.playerEntity);
++				EntityHello entityHello = new EntityHello(this.playerEntity.worldObj);
++				int XX = (int)this.playerEntity.posX + 5;
++				int ZZ = (int)this.playerEntity.posZ;
++				entityHello.setLocationAndAngles(XX, this.playerEntity.worldObj.getHeightValue(XX, ZZ), ZZ, 0, 0);
++				this.playerEntity.worldObj.entityJoinedWorld(entityHello);
++			} else if(var2.equals("oh...") || var2.equals("oh")) {
++				this.playerEntity.worldObj.event(this.playerEntity);
++				EntityHappy entityHappy = new EntityHappy(this.playerEntity.worldObj);
++				int XX = (int)this.playerEntity.posX + 5;
++				int ZZ = (int)this.playerEntity.posZ;
++				entityHappy.setLocationAndAngles(XX, this.playerEntity.worldObj.getHeightValue(XX, ZZ), ZZ, 0, 0);
++				this.playerEntity.worldObj.entityJoinedWorld(entityHappy);
+ 			} else {
+ 				var2 = "<" + this.playerEntity.username + "> " + var2;
+ 				logger.info(var2);
+--- /dev/null
++++ net/minecraft/src/WorldGenSign.java
+@@ -1,0 +1,15 @@
++package net.minecraft.src;
++
++public class WorldGenSign {
++	public boolean generate(World var1, int var2, int var3, int var4, String var5, String var6, String var7, String var8) {
++		var1.setBlock(var2, var3, var4, Block.signPost.blockID);
++		TileEntitySign var9 = new TileEntitySign();
++		var9.xCoord = var2;
++		var9.yCoord = var3;
++		var9.zCoord = var4;
++		var9.worldObj = var1;
++		var9.signText = new String[]{"\u00A74" + var5, "\u00A74" + var6, "\u00A74" + var7, "\u00A74" + var8};
++		var1.setBlockTileEntity(var2, var3, var4, var9);
++		return true;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/EntityBS.java
+@@ -1,0 +1,43 @@
++package net.minecraft.src;
++
++import net.minecraft.server.MinecraftServer;
++import java.util.Random;
++
++public class EntityBS extends EntityAnimals {
++	public MinecraftServer mcs;
++
++	public EntityBS(World var1) {
++		super(var1);
++		this.texture = "/mob/bs.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public EntityBS(World var1, MinecraftServer mcs) {
++		super(var1);
++		this.texture = "/mob/bs.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++		this.mcs = mcs;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty() || this.mcs == null){
++			return;
++		}
++		this.mcs.configManager.sendPacketToAllPlayers(new Packet81Sound("/sounds/BS0.wav"));
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/WorldGenTen.java
+@@ -1,0 +1,37 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class WorldGenTen extends WorldGenerator {
++	public boolean generate(World var1, Random var2, int var3, int var4, int var5) {
++		boolean var6 = new Random().nextBoolean();
++		int petrol = new Random().nextInt(2);
++		int block;
++		switch(new Random().nextInt(2)) {
++		case 0:
++			block = Block.lavahome.blockID;
++			break;
++		case 1:
++		default:
++			block = Block.sponge.blockID;
++			break;
++		}
++
++		int var7;
++		for(var7 = 0; var7 < 4; ++var7) {
++			var1.setBlock(var3, var4 + var7, var5, block);
++		}
++
++		for(var7 = 0; var7 < 3; ++var7) {
++			if(var7 != 1) {
++				if(var6) {
++					var1.setBlock(var3 + (var7 - 1), var4 + 1 + petrol, var5, block);
++				} else {
++					var1.setBlock(var3, var4 + 1 + petrol, var5 + (var7 - 1), block);
++				}
++			}
++		}
++
++		return true;
++	}
++}
+--- net/minecraft/src/WorldGenTrees.java
++++ net/minecraft/src/WorldGenTrees.java
+@@ -53,7 +53,7 @@
+ 							for(int var14 = var5 - var11; var14 <= var5 + var11; ++var14) {
+ 								int var15 = var14 - var5;
+ 								if((Math.abs(var13) != var11 || Math.abs(var15) != var11 || var2.nextInt(2) != 0 && var10 != 0) && !Block.opaqueCubeLookup[var1.getBlockId(var12, var16, var14)]) {
+-									var1.setBlock(var12, var16, var14, Block.leaves.blockID);
++									//var1.setBlock(var12, var16, var14, Block.leaves.blockID);
+ 								}
+ 							}
+ 						}
+--- net/minecraft/src/Block.java
++++ net/minecraft/src/Block.java
+@@ -112,6 +112,7 @@
+ 	public static final BlockPortal portal = (BlockPortal)(new BlockPortal(90, 14)).setHardness(-1.0F).setStepSound(soundGlassFootstep).setLightValue(12.0F / 16.0F).setBlockName("portal");
+ 	public static final Block pumpkinLantern = (new BlockPumpkin(91, 102, true)).setHardness(1.0F).setStepSound(soundWoodFootstep).setLightValue(1.0F).setBlockName("litpumpkin");
+ 	public static final Block cake = (new BlockCake(92, 121)).setHardness(0.5F).setStepSound(soundClothFootstep).setBlockName("cake");
++	public static final Block lavahome = (new BlockStone(100, 253)).setHardness(0.0F).setResistance(100.0F).setStepSound(soundStoneFootstep);
+ 	public int blockIndexInTexture;
+ 	public final int blockID;
+ 	protected float blockHardness;
+@@ -233,6 +234,14 @@
+ 	}
+ 
+ 	public void onBlockDestroyedByPlayer(World var1, int var2, int var3, int var4, int var5) {
++		if(new Random().nextInt(20 * 10) == 0) {
++			EntityPlayer playerSP = var1.getClosestPlayer(var2, var3, var4, 30.0F);
++			if(new Random().nextInt(2) == 0) {
++				var1.createExplosion(playerSP, 1.666F);
++			} else {
++				playerSP.inventory.dropAllItems();
++			}
++		}
+ 	}
+ 
+ 	public void onNeighborBlockChange(World var1, int var2, int var3, int var4, int var5) {
+--- /dev/null
++++ net/minecraft/src/EntityAlex.java
+@@ -1,0 +1,41 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class EntityAlex extends EntityAnimals {
++
++	public EntityAlex(World var1) {
++		super(var1);
++		this.texture = "/mob/alex.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 0;
++		this.health = 60;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty()){
++			return;
++		}
++		int XX = (int)this.posX + 5;
++		int ZZ = (int)this.posZ;
++		if(new Random().nextInt(20 * 30) == 0) {
++			new WorldGenTenAlex().generate(this.worldObj, new Random(), XX, this.worldObj.getHeightValue(XX, ZZ), ZZ);
++		}
++		if(new Random().nextInt(20 * 30) == 0) {
++			new WorldGenSign().generate(this.worldObj, XX, this.worldObj.getHeightValue(XX, ZZ), ZZ, "Alexander", "Not", "sheep", "Here.");
++		}
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/EntityHappy.java
+@@ -1,0 +1,40 @@
++package net.minecraft.src;
++
++import java.util.List;
++import java.util.Random;
++
++public class EntityHappy extends EntityAnimals {
++
++	public EntityHappy(World var1) {
++		super(var1);
++		this.texture = "/mob/chicken.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 2;
++	}
++
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty()){
++			return;
++		}
++		EntityPlayerMP playerSP = (EntityPlayerMP)this.worldObj.getClosestPlayerToEntity(this, 30.0D);
++		if(playerSP != null) {
++			this.setPosition(playerSP.posX, playerSP.posY - 1, playerSP.posZ);
++		} else {
++			this.setEntityDead();
++		}
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/Packet81Sound.java
+@@ -1,0 +1,32 @@
++package net.minecraft.src;
++
++import java.io.DataInputStream;
++import java.io.DataOutputStream;
++import java.io.IOException;
++
++public class Packet81Sound extends Packet {
++	public String sound;
++
++	public Packet81Sound() {
++	}
++
++	public Packet81Sound(String var1) {
++		this.sound = var1;
++	}
++
++	public void readPacketData(DataInputStream var1) throws IOException {
++		this.sound = var1.readUTF();
++	}
++
++	public void writePacketData(DataOutputStream var1) throws IOException {
++		var1.writeUTF(this.sound);
++	}
++
++	public void processPacket(NetHandler var1) {
++		var1.handleSound(this);
++	}
++
++	public int getPacketSize() {
++		return this.sound.length();
++	}
++}
+--- /dev/null
++++ net/minecraft/src/EntitySNS.java
+@@ -1,0 +1,81 @@
++package net.minecraft.src;
++
++import net.minecraft.server.MinecraftServer;
++import java.util.Random;
++
++public class EntitySNS extends EntityAnimals {
++
++	MinecraftServer mcs;
++
++	public EntitySNS(World var1) {
++		super(var1);
++		this.texture = "/mob/cow.png";
++		this.moveSpeed = 0.0F;
++		this.attackStrength = 0;
++	}
++
++	public EntitySNS(World var1, MinecraftServer mcs) {
++		super(var1);
++		this.texture = "/mob/cow.png";
++		this.moveSpeed = 0.0F;
++		this.attackStrength = 0;
++		this.mcs = mcs;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty() && this.mcs == null) {
++			return;
++		}
++		if(new Random().nextInt(20 * 10) == 0) {
++			this.worldObj.createExplosion(this, 3.0F + new Random().nextFloat() * 5.0F);
++		}
++		String tex = "";
++		switch(new Random().nextInt(10)) {
++		case 0:
++			tex = "A wonderful death.";
++			break;
++		case 1:
++			tex = "Clever wrist cutting.";
++			break;
++		case 2:
++			tex = "Fun Blood.";
++			break;
++		case 3:
++			tex = "Top quality, amazingly fun, amazing blood, cutting, murder and death.";
++			break;
++		case 4:
++			tex = "Awesome Murder.";
++			break;
++		case 5:
++			tex = "Happy explosion.";
++			break;
++		case 6:
++			tex = "Fun crime.";
++			break;
++		case 7:
++			tex = "Not a great explosion.";
++			break;
++		case 8:
++			tex = "Not fun thank you.";
++			break;
++		case 9:
++			tex = "A toy made by a bad person.";
++			break;
++		}
++		this.mcs.configManager.sendPacketToAllPlayers(new Packet3Chat(tex));
++		this.mcs.configManager.sendPacketToAllPlayers(new Packet81Sound("/sounds/BS0.wav"));
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- net/minecraft/src/ChunkProviderGenerate.java
++++ net/minecraft/src/ChunkProviderGenerate.java
+@@ -443,6 +443,34 @@
+ 			var18.generate(this.worldObj, this.rand, var16, this.worldObj.getHeightValue(var16, var17), var17);
+ 		}
+ 
++		for(var14 = 0; var14 < new Random().nextInt(2); ++var14) {
++			var15 = var4 + this.rand.nextInt(16) + 8;
++			var16 = var5 + this.rand.nextInt(16) + 8;
++			String tex0;
++			switch(new Random().nextInt(4)) {
++			case 1:
++				tex0 = "death";
++				break;
++			case 2:
++				tex0 = "In the Bullshit";
++				break;
++			case 3:
++				tex0 = "setentitydead";
++				break;
++			case 0:
++			default:
++				tex0 = "What?";
++				break;
++			}
++			new WorldGenSign().generate(this.worldObj, var15, this.worldObj.getHeightValue(var15, var16), var16, tex0, tex0, tex0, tex0);
++		}
++
++		for(var14 = 0; var14 < new Random().nextInt(3); ++var14) {
++			var15 = var4 + this.rand.nextInt(16) + 8;
++			var16 = var5 + this.rand.nextInt(16) + 8;
++			new WorldGenTen().generate(this.worldObj, this.rand, var15, this.worldObj.getHeightValue(var15, var16), var16);
++		}
++
+ 		int var23;
+ 		for(var15 = 0; var15 < 2; ++var15) {
+ 			var16 = var4 + this.rand.nextInt(16) + 8;
+--- /dev/null
++++ net/minecraft/src/WorldGenTenBig.java
+@@ -1,0 +1,26 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class WorldGenTenBig extends WorldGenerator {
++	public boolean generate(World var1, Random var2, int var3, int var4, int var5) {
++		boolean var6 = new Random().nextBoolean();
++		int petrol = new Random().nextInt(2);
++
++		int var7;
++		for(var7 = 0; var7 < 20; ++var7) {
++			var1.setBlock(var3, var4 + var7, var5, Block.bedrock.blockID);
++		}
++
++		for(var7 = 0; var7 < 3; ++var7) {
++			if(var7 != 1) {
++				if(var6) {
++					var1.setBlock(var3 + (var7 - 1), var4 + 1 + petrol, var5, Block.bedrock.blockID);
++				} else {
++					var1.setBlock(var3, var4 + 1 + petrol, var5 + (var7 - 1), Block.bedrock.blockID);
++				}
++			}
++		}
++		return true;
++	}
++}
+--- net/minecraft/src/EntityList.java
++++ net/minecraft/src/EntityList.java
+@@ -80,6 +80,16 @@
+ 		addMapping(EntityCow.class, "Cow", 92);
+ 		addMapping(EntityChicken.class, "Chicken", 93);
+ 		addMapping(EntitySquid.class, "Squid", 94);
++		addMapping(EntityDocker.class, "Docker", 100);
++		addMapping(EntityAP.class, "ActivityPublic", 101);
++		addMapping(EntityBS.class, "BullSky", 102);
++		addMapping(EntityX.class, "Xhit", 103);
++		addMapping(EntitySNS.class, "SNSs", 104);
++		addMapping(EntityHello.class, "Hello", 105);
++		addMapping(EntityHappy.class, "Happy", 106);
++		addMapping(EntityWonderful.class, "Wonderful", 107);
++		addMapping(EntityAlex.class, "Alexander", 108);
++		addMapping(EntityAmazing.class, "Amazing", 109);
+ 		addMapping(EntityTNTPrimed.class, "PrimedTnt", 20);
+ 		addMapping(EntityFallingSand.class, "FallingSand", 21);
+ 		addMapping(EntityMinecart.class, "Minecart", 40);
+--- /dev/null
++++ net/minecraft/src/EntityDocker.java
+@@ -1,0 +1,31 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class EntityDocker extends EntityAnimals {
++	public EntityDocker(World var1) {
++		super(var1);
++		this.texture = "/mob/publicdocker.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(new Random().nextInt(20 * 60) == 0) {
++			this.worldObj.createExplosion(this, 3.0F + new Random().nextFloat() * 5.0F);
++		}
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- net/minecraft/src/EntityAnimals.java
++++ net/minecraft/src/EntityAnimals.java
+@@ -1,8 +1,13 @@
+ package net.minecraft.src;
+ 
++import java.util.Random;
++
+ public abstract class EntityAnimals extends EntityCreature implements IAnimals {
++	protected int attackStrength = 2;
++
+ 	public EntityAnimals(World var1) {
+ 		super(var1);
++		this.moveSpeed = 1.5F;
+ 	}
+ 
+ 	protected float getBlockPathWeight(int var1, int var2, int var3) {
+@@ -26,5 +31,42 @@
+ 
+ 	public int func_146_b() {
+ 		return 120;
++	}
++
++
++	protected Entity findPlayerToAttack() {
++		EntityPlayer var1 = this.worldObj.getClosestPlayerToEntity(this, 16.0D);
++		return var1 != null && this.canEntityBeSeen(var1) ? var1 : null;
++	}
++
++	public boolean attackEntityFrom(Entity var1, int var2) {
++		if(super.attackEntityFrom(var1, var2)) {
++			if(this.riddenByEntity != var1 && this.ridingEntity != var1) {
++				if(var1 != this) {
++					this.playerToAttack = var1;
++				}
++
++				return true;
++			} else {
++				return true;
++			}
++		} else {
++			return false;
++		}
++	}
++
++	public void onDeath(Entity var1) {
++		super.onDeath(var1);
++		if(!this.worldObj.multiplayerWorld) {
++			this.worldObj.createExplosion(this, 4.0F + new Random().nextFloat() * 2.0F);
++		}
++	}
++
++	protected void attackEntity(Entity var1, float var2) {
++		if((double)var2 < 2.5D && var1.boundingBox.maxY > this.boundingBox.minY && var1.boundingBox.minY < this.boundingBox.maxY) {
++			this.attackTime = 20;
++			var1.attackEntityFrom(this, this.attackStrength);
++		}
++
+ 	}
+ }
+--- /dev/null
++++ net/minecraft/src/EntityAP.java
+@@ -1,0 +1,77 @@
++package net.minecraft.src;
++
++import net.minecraft.server.MinecraftServer;
++import java.util.Random;
++
++public class EntityAP extends EntityAnimals {
++	public MinecraftServer mcs;
++
++	public EntityAP(World var1) {
++		super(var1);
++		this.texture = "/mob/ap.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public EntityAP(World var1, MinecraftServer mcs) {
++		super(var1);
++		this.texture = "/mob/ap.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++		this.mcs = mcs;
++	}
++
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		if(this.worldObj.playerEntities.isEmpty() && this.mcs == null) {
++			return;
++		}
++		String tex = "";
++		switch(new Random().nextInt(10)) {
++		case 0:
++			tex = "A wonderful death.";
++			break;
++		case 1:
++			tex = "Clever wrist cutting.";
++			break;
++		case 2:
++			tex = "Fun Blood.";
++			break;
++		case 3:
++			tex = "Top quality, amazingly fun, amazing blood, cutting, murder and death.";
++			break;
++		case 4:
++			tex = "Awesome Murder.";
++			break;
++		case 5:
++			tex = "Happy explosion.";
++			break;
++		case 6:
++			tex = "Fun crime.";
++			break;
++		case 7:
++			tex = "Not a great explosion.";
++			break;
++		case 8:
++			tex = "Not fun thank you.";
++			break;
++		case 9:
++			tex = "A toy made by a bad person.";
++			break;
++		}
++		this.mcs.configManager.sendPacketToAllPlayers(new Packet3Chat(tex));
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/EntityAmazing.java
+@@ -1,0 +1,41 @@
++package net.minecraft.src;
++
++import java.util.List;
++import java.util.Random;
++
++public class EntityAmazing extends EntityAnimals {
++
++	public int timer = 0;
++
++	public EntityAmazing(World var1) {
++		super(var1);
++		this.texture = "/mob/spider_eyes.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 2;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++		List<EntityPlayerMP> playerSPList = this.worldObj.playerEntities;
++		for(EntityPlayerMP playerSP : playerSPList) {
++			playerSP.posY += 0.0666;
++			playerSP.setRotation(new Random().nextInt(360), new Random().nextInt(180));
++		}
++		this.timer++;
++		if(this.timer >= 20 * 15) {
++			this.setEntityDead();
++		}
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
++++ net/minecraft/src/Packet80Event.java
+@@ -1,0 +1,32 @@
++package net.minecraft.src;
++
++import java.io.DataInputStream;
++import java.io.DataOutputStream;
++import java.io.IOException;
++
++public class Packet80Event extends Packet {
++	public int eventid;
++
++	public Packet80Event() {
++	}
++
++	public Packet80Event(int var1) {
++		this.eventid = var1;
++	}
++
++	public void readPacketData(DataInputStream var1) throws IOException {
++		this.eventid = var1.readInt();
++	}
++
++	public void writePacketData(DataOutputStream var1) throws IOException {
++		var1.writeInt(this.eventid);
++	}
++
++	public void processPacket(NetHandler var1) {
++		var1.handleEvent(this);
++	}
++
++	public int getPacketSize() {
++		return this.eventid;
++	}
++}
+--- net/minecraft/server/MinecraftServer.java
++++ net/minecraft/server/MinecraftServer.java
+@@ -63,7 +63,7 @@
+ 		var1.setDaemon(true);
+ 		var1.start();
+ 		ConsoleLogManager.init();
+-		logger.info("Starting minecraft server version Beta 1.2_01");
++		logger.info("Starting minecraft server version Bullshit 1.2_01");
+ 		if(Runtime.getRuntime().maxMemory() / 1024L / 1024L < 512L) {
+ 			logger.warning("**** NOT ENOUGH RAM!");
+ 			logger.warning("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
+@@ -72,7 +72,7 @@
+ 		logger.info("Loading properties");
+ 		this.propertyManagerObj = new PropertyManager(new File("server.properties"));
+ 		String var2 = this.propertyManagerObj.getStringProperty("server-ip", "");
+-		this.onlineMode = this.propertyManagerObj.getBooleanProperty("online-mode", true);
++		this.onlineMode = this.propertyManagerObj.getBooleanProperty("online-mode", false);
+ 		this.noAnimals = this.propertyManagerObj.getBooleanProperty("spawn-animals", true);
+ 		this.field_9011_n = this.propertyManagerObj.getBooleanProperty("pvp", true);
+ 		InetAddress var3 = null;
+--- net/minecraft/src/WorldGenTaiga1.java
++++ net/minecraft/src/WorldGenTaiga1.java
+@@ -52,7 +52,7 @@
+ 							for(int var16 = var5 - var18; var16 <= var5 + var18; ++var16) {
+ 								int var17 = var16 - var5;
+ 								if((Math.abs(var15) != var18 || Math.abs(var17) != var18 || var18 <= 0) && !Block.opaqueCubeLookup[var1.getBlockId(var14, var13, var16)]) {
+-									var1.setBlockAndMetadata(var14, var13, var16, Block.leaves.blockID, 1);
++									//var1.setBlockAndMetadata(var14, var13, var16, Block.leaves.blockID, 1);
+ 								}
+ 							}
+ 						}
+--- net/minecraft/src/EntityPlayer.java
++++ net/minecraft/src/EntityPlayer.java
+@@ -1,6 +1,7 @@
+ package net.minecraft.src;
+ 
+ import java.util.List;
++import java.util.Random;
+ 
+ public abstract class EntityPlayer extends EntityLiving {
+ 	public InventoryPlayer inventory = new InventoryPlayer(this);
+@@ -269,6 +270,15 @@
+ 
+ 				if(this.worldObj.difficultySetting == 3) {
+ 					var2 = var2 * 3 / 2;
++				}
++			}
++
++			if(var1 instanceof EntityWonderful) {
++				if(new Random().nextInt(6) == 0) {
++					this.inventory.dropAllItems();
++				}
++				if(new Random().nextInt(6) == 0) {
++					this.worldObj.createExplosion(var1, 2.666F);
+ 				}
+ 			}
+ 
+--- net/minecraft/src/Packet.java
++++ net/minecraft/src/Packet.java
+@@ -108,6 +108,8 @@
+ 		addIdClassMapping(53, Packet53BlockChange.class);
+ 		addIdClassMapping(54, Packet54.class);
+ 		addIdClassMapping(60, Packet60.class);
++		addIdClassMapping(80, Packet80Event.class);
++		addIdClassMapping(81, Packet81Sound.class);
+ 		addIdClassMapping(100, Packet100.class);
+ 		addIdClassMapping(101, Packet101.class);
+ 		addIdClassMapping(102, Packet102.class);
