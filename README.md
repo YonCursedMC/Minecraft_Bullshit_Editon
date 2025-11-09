@@ -23,7 +23,7 @@ https://www.azul.com/downloads/?version=java-8-lts&os=windows&architecture=x86-6
 
 1. クライアントのzipファイルをダウンロードします。<br>
 https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases<br>
-こちらの一番上の```Minecraft_Bullshit_Editon.zip```<br>
+こちらの一番上の```Bullshit.zip```<br>
 
 2. MultiMC<br>
 https://multimc.org/#Download<br>
@@ -38,9 +38,9 @@ https://prismlauncher.org/download/windows/<br>
 ### サーバー
 - Beta 1.2_01(02?)のMinecraft Serverをダウンロードし、<br>
 https://files.betacraft.uk/server-archive/beta/b1.2_01.jar<br>
-- https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases にある、Minecraft_Bullshit_Editon_server.zip をダウンロードします。
-- 1.1の中身を7-zipなどで展開し、Minecraft_Bullshit_Editon_server.zipの中身をその1.1の中に上書きします。
-- そうして(jarに戻し)起動して、Minecraft_Bullshit_Editonになっていたら完成です。
+- https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases にある、Bullshit_server.zip をダウンロードします。
+- 1.1の中身を7-zipなどで展開し、Bullshit_server.zipの中身をその1.1の中に上書きします。
+- そうして(jarに戻し)起動して、Bullshit 1.2_01になっていたら完成です。
 ※ クライアントと動作が違い、完璧ではなく、バグも多いです！やる際はバグを許容してください！<br>
 
 ## クレジット
@@ -79,7 +79,7 @@ https://www.azul.com/downloads/?version=java-8-lts&os=windows&architecture=x86-6
 
 1. Download the client zip file.<br>
 https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases<br>
-The top link here is ``Minecraft_Bullshit_Editon.zip```<br>
+The top link here is ``Bullshit.zip```<br>
 
 2. MultiMC<br>
 https://multimc.org/#Download<br>
@@ -94,9 +94,9 @@ Install MultiMC, and once the installation is complete, drag and drop the zip fi
 ### Server
 - Download Minecraft Server Beta 1.2_01 (02?):<br>
 https://files.betacraft.uk/server-archive/beta/b1.2_01.jar<br>
-- Download Minecraft_Bullshit_Editon_server.zip from https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases.
-- Extract the contents of 1.1 using 7-zip or similar, and overwrite the contents of Minecraft_Bullshit_Editon_server.zip with the contents of 1.1.
-- Then (revert to jar), launch the server, and if it's running Minecraft_Bullshit_Editon, it's complete.
+- Download Bullshit_server.zip from https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases.
+- Extract the contents of 1.1 using 7-zip or similar, and overwrite the contents of Bullshit_server.zip with the contents of 1.1.
+- Then (revert to jar), launch the server, and if it's running Bullshit 1.2_01, it's complete.
 *It works differently from the client, is not perfect, and has many bugs! Please be tolerant of bugs when playing! <br>
 
 ## Credits
