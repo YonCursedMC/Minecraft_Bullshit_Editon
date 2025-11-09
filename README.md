@@ -1,8 +1,5 @@
 <img alt="GitHub Downloads (all releases)" src="https://img.shields.io/github/downloads/YonCursedMC/Minecraft_Bullshit_Editon/total?style=for-the-badge">
 
-# EN
-https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/blob/main/README_EN.md
-
 # Minecraft_Bullshit_Editon
 
 # JP
@@ -59,9 +56,11 @@ https://pixabay.com<br>
 ### ツール
 ありがとうございます！
 
-#EN
+---------
 
-##Caution
+# EN
+
+## Caution
 - This version was not officially released by Mojang, nor is it officially certified.
 - The creator assumes no responsibility for any damage caused by playing this version.
 - Unauthorized reproduction is prohibited. If discovered, please report it.
