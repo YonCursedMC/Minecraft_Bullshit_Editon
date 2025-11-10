@@ -321,7 +321,7 @@
  	private LogoEffectRandomizer[][] logoEffects;
  	private float updateCounter = 0.0F;
  	private String splashText = "missingno";
-@@ -58,13 +64,13 @@
+@@ -58,20 +64,20 @@
  		Calendar var1 = Calendar.getInstance();
  		var1.setTime(new Date());
  		if(var1.get(2) + 1 == 11 && var1.get(5) == 9) {
@@ -339,6 +339,14 @@
  		}
  
  		StringTranslate var2 = StringTranslate.getInstance();
+ 		int var4 = this.height / 4 + 48;
+ 		this.controlList.add(new GuiButton(1, this.width / 2 - 100, var4, var2.translateKey("menu.singleplayer")));
+ 		this.controlList.add(new GuiButton(2, this.width / 2 - 100, var4 + 24, var2.translateKey("menu.multiplayer")));
+-		this.controlList.add(new GuiButton(3, this.width / 2 - 100, var4 + 48, var2.translateKey("menu.mods")));
++		//this.controlList.add(new GuiButton(3, this.width / 2 - 100, var4 + 48, var2.translateKey("menu.mods")));
+ 		if(this.mc.hideQuitButton) {
+ 			this.controlList.add(new GuiButton(0, this.width / 2 - 100, var4 + 72, var2.translateKey("menu.options")));
+ 		} else {
 @@ -123,8 +129,8 @@
  		GL11.glScalef(var5, var5, var5);
  		this.drawCenteredString(this.fontRenderer, this.splashText, 0, -8, 16776960);
