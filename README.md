@@ -42,6 +42,7 @@ https://files.betacraft.uk/server-archive/beta/b1.2_01.jar<br>
 - 1.1の中身を7-zipなどで展開し、Bullshit_server.zipの中身をその1.1の中に上書きします。
 - そうして(jarに戻し)起動して、Bullshit 1.2_01になっていたら完成です。
 ※ クライアントと動作が違い、完璧ではなく、バグも多いです！やる際はバグを許容してください！<br>
+※ 必ずオンラインモードをオフにしてください。
 
 ## クレジット
 クレジット
@@ -97,7 +98,8 @@ https://files.betacraft.uk/server-archive/beta/b1.2_01.jar<br>
 - Download Bullshit_server.zip from https://github.com/YonCursedMC/Minecraft_Bullshit_Editon/releases.
 - Extract the contents of 1.1 using 7-zip or similar, and overwrite the contents of Bullshit_server.zip with the contents of 1.1.
 - Then (revert to jar), launch the server, and if it's running Bullshit 1.2_01, it's complete.
-*It works differently from the client, is not perfect, and has many bugs! Please be tolerant of bugs when playing! <br>
+* It works differently from the client, is not perfect, and has many bugs! Please be tolerant of bugs when playing! <br>
+* Be sure to turn off online mode.
 
 ## Credits
 Credits
