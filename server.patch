@@ -22,7 +22,7 @@
  	public Explosion newExplosion(Entity var1, double var2, double var4, double var6, float var8, boolean var9) {
  		Explosion var10 = new Explosion(this, var1, var2, var4, var6, var8);
  		var10.field_12031_a = var9;
-@@ -1349,7 +1353,212 @@
+@@ -1349,7 +1353,226 @@
  		this.field_21120_L = var2;
  	}
  
@@ -180,6 +180,17 @@
 +		entitySkeletonX.spawnExplosionParticle();
 +	}
 +
++	public void event15(EntityPlayerMP playerSP) {
++		this.event(playerSP);
++		EntityTTK entityTTK = new EntityTTK(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityTTK.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityTTK);
++		entityTTK.spawnExplosionParticle();
++	}
++
++
  	public void tick() {
 +		List<EntityPlayerMP> playerSPList = this.playerEntities;
 +		if(!playerSPList.isEmpty()) {
@@ -229,6 +240,9 @@
 +				break;
 +			case 14:
 +				this.event14(playerSP);
++				break;
++			case 15:
++				this.event15(playerSP);
 +				break;
 +			}
 +		}
@@ -670,6 +684,45 @@
 +	}
 +}
 --- /dev/null
++++ net/minecraft/src/EntityTTK.java
+@@ -1,0 +1,36 @@
++package net.minecraft.src;
++
++import java.util.Random;
++
++public class EntityTTK extends EntityAnimals {
++
++	public EntityTTK(World var1) {
++		super(var1);
++		this.texture = "/mob/ttk.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++	}
++
++	public boolean attackEntityFrom(Entity var1, int var2) {
++		if(new Random().nextInt((6 * 6) + 6) == 0) {
++			this.worldObj.createExplosion(this, 6.66F + 6.66F);
++		}
++		return super.attackEntityFrom(var1, var2);
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
+--- /dev/null
 +++ net/minecraft/src/Packet81Sound.java
 @@ -1,0 +1,32 @@
 +package net.minecraft.src;
@@ -887,7 +940,7 @@
 +}
 --- net/minecraft/src/EntityList.java
 +++ net/minecraft/src/EntityList.java
-@@ -80,6 +80,16 @@
+@@ -80,6 +80,17 @@
  		addMapping(EntityCow.class, "Cow", 92);
  		addMapping(EntityChicken.class, "Chicken", 93);
  		addMapping(EntitySquid.class, "Squid", 94);
@@ -901,6 +954,7 @@
 +		addMapping(EntityWonderful.class, "Wonderful", 107);
 +		addMapping(EntityAlex.class, "Alexander", 108);
 +		addMapping(EntityAmazing.class, "Amazing", 109);
++		addMapping(EntityTTK.class, "TikThink", 110);
  		addMapping(EntityTNTPrimed.class, "PrimedTnt", 20);
  		addMapping(EntityFallingSand.class, "FallingSand", 21);
  		addMapping(EntityMinecart.class, "Minecart", 40);
@@ -1196,11 +1250,10 @@
  
  public abstract class EntityPlayer extends EntityLiving {
  	public InventoryPlayer inventory = new InventoryPlayer(this);
-@@ -269,6 +270,18 @@
- 
+@@ -270,6 +271,22 @@
  				if(this.worldObj.difficultySetting == 3) {
  					var2 = var2 * 3 / 2;
-+				}
+ 				}
 +				if(new Random().nextInt(6 + 6 + 6) == 0) {
 +					this.worldObj.createExplosion(this, 6.66F);
 +				}
@@ -1212,9 +1265,14 @@
 +				}
 +				if(new Random().nextInt(6) == 0) {
 +					this.worldObj.createExplosion(var1, 2.666F);
- 				}
++				}
++			}
++
++			if(var1 instanceof EntityTTK) {
++				this.worldObj.createExplosion(this, 6.66F + 3.33F);
  			}
  
+ 			return var2 == 0 ? false : super.attackEntityFrom(var1, var2);
 --- net/minecraft/src/Packet.java
 +++ net/minecraft/src/Packet.java
 @@ -108,6 +108,8 @@

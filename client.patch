@@ -9,6 +9,48 @@
  	protected Class[] biomeWaterCreatures = new Class[]{EntitySquid.class};
  	private static MobSpawnerBase[] biomeLookupTable = new MobSpawnerBase[4096];
  
+--- net/minecraft/src/ModelRenderer.java
++++ net/minecraft/src/ModelRenderer.java
+@@ -18,6 +18,8 @@
+ 	public boolean mirror = false;
+ 	public boolean field_1403_h = true;
+ 	public boolean field_1402_i = false;
++	public float textureSizeWidth = 64.0F;
++	public float textureSizeHeight = 32.0F;
+ 
+ 	public ModelRenderer(int var1, int var2) {
+ 		this.textureOffsetX = var1;
+@@ -28,6 +30,11 @@
+ 		this.addBox(var1, var2, var3, var4, var5, var6, 0.0F);
+ 	}
+ 
++	public void setSize(float var1, float var2) {
++		this.textureSizeWidth = var1;
++		this.textureSizeHeight = var2;
++	}
++
+ 	public void addBox(float var1, float var2, float var3, int var4, int var5, int var6, float var7) {
+ 		this.corners = new PositionTexureVertex[8];
+ 		this.faces = new TexturedQuad[6];
+@@ -62,12 +69,12 @@
+ 		this.corners[5] = var16;
+ 		this.corners[6] = var17;
+ 		this.corners[7] = var18;
+-		this.faces[0] = new TexturedQuad(new PositionTexureVertex[]{var16, var12, var13, var17}, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4 + var6, this.textureOffsetY + var6 + var5);
+-		this.faces[1] = new TexturedQuad(new PositionTexureVertex[]{var20, var15, var18, var14}, this.textureOffsetX + 0, this.textureOffsetY + var6, this.textureOffsetX + var6, this.textureOffsetY + var6 + var5);
+-		this.faces[2] = new TexturedQuad(new PositionTexureVertex[]{var16, var15, var20, var12}, this.textureOffsetX + var6, this.textureOffsetY + 0, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6);
+-		this.faces[3] = new TexturedQuad(new PositionTexureVertex[]{var13, var14, var18, var17}, this.textureOffsetX + var6 + var4, this.textureOffsetY + 0, this.textureOffsetX + var6 + var4 + var4, this.textureOffsetY + var6);
+-		this.faces[4] = new TexturedQuad(new PositionTexureVertex[]{var12, var20, var14, var13}, this.textureOffsetX + var6, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6 + var5);
+-		this.faces[5] = new TexturedQuad(new PositionTexureVertex[]{var15, var16, var17, var18}, this.textureOffsetX + var6 + var4 + var6, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4 + var6 + var4, this.textureOffsetY + var6 + var5);
++		this.faces[0] = new TexturedQuad(new PositionTexureVertex[]{var16, var12, var13, var17}, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4 + var6, this.textureOffsetY + var6 + var5, this.textureSizeWidth, this.textureSizeHeight);
++		this.faces[1] = new TexturedQuad(new PositionTexureVertex[]{var20, var15, var18, var14}, this.textureOffsetX + 0, this.textureOffsetY + var6, this.textureOffsetX + var6, this.textureOffsetY + var6 + var5, this.textureSizeWidth, this.textureSizeHeight);
++		this.faces[2] = new TexturedQuad(new PositionTexureVertex[]{var16, var15, var20, var12}, this.textureOffsetX + var6, this.textureOffsetY + 0, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6, this.textureSizeWidth, this.textureSizeHeight);
++		this.faces[3] = new TexturedQuad(new PositionTexureVertex[]{var13, var14, var18, var17}, this.textureOffsetX + var6 + var4, this.textureOffsetY + 0, this.textureOffsetX + var6 + var4 + var4, this.textureOffsetY + var6, this.textureSizeWidth, this.textureSizeHeight);
++		this.faces[4] = new TexturedQuad(new PositionTexureVertex[]{var12, var20, var14, var13}, this.textureOffsetX + var6, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6 + var5, this.textureSizeWidth, this.textureSizeHeight);
++		this.faces[5] = new TexturedQuad(new PositionTexureVertex[]{var15, var16, var17, var18}, this.textureOffsetX + var6 + var4 + var6, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4 + var6 + var4, this.textureOffsetY + var6 + var5, this.textureSizeWidth, this.textureSizeHeight);
+ 		if(this.mirror) {
+ 			for(int var19 = 0; var19 < this.faces.length; ++var19) {
+ 				this.faces[var19].func_809_a();
 --- net/minecraft/src/World.java
 +++ net/minecraft/src/World.java
 @@ -1469,6 +1469,10 @@
@@ -22,7 +64,7 @@
  	public Explosion newExplosion(Entity var1, double var2, double var4, double var6, float var8, boolean var9) {
  		Explosion var10 = new Explosion(this, var1, var2, var4, var6, var8);
  		var10.field_12257_a = var9;
-@@ -1662,7 +1666,246 @@
+@@ -1662,7 +1666,259 @@
  		this.field_21120_L = var2;
  	}
  
@@ -212,6 +254,16 @@
 +		entitySkeletonX.spawnExplosionParticle();
 +	}
 +
++	public void event15(EntityPlayerSP playerSP) {
++		this.event(playerSP);
++		EntityTTK entityTTK = new EntityTTK(this);
++		int XX = (int)playerSP.posX + 5;
++		int ZZ = (int)playerSP.posZ;
++		entityTTK.setLocationAndAngles(XX, this.getHeightValue(XX, ZZ), ZZ, 0, 0);
++		this.entityJoinedWorld(entityTTK);
++		entityTTK.spawnExplosionParticle();
++	}
++
  	public void tick() {
 +		if(!this.multiplayerWorld) {
 +			List<EntityPlayerSP> playerSPList = this.playerEntities;
@@ -263,12 +315,80 @@
 +				case 14:
 +					this.event14(playerSP);
 +					break;
++				case 15:
++					this.event15(playerSP);
++					break;
 +				}
 +			}
 +		}
  		SpawnerAnimals.performSpawning(this, this.field_21121_K, this.field_21120_L);
  		this.chunkProvider.func_532_a();
  		int var1 = this.calculateSkylightSubtracted(1.0F);
+--- /dev/null
++++ net/minecraft/src/ModelTikThink.java
+@@ -1,0 +1,62 @@
++package net.minecraft.src;
++
++public class ModelTikThink extends ModelBase {
++	public ModelRenderer head;
++	public ModelRenderer body;
++	public ModelRenderer left_arm;
++	public ModelRenderer right_arm;
++	public ModelRenderer left_leg;
++	public ModelRenderer right_leg;
++
++	public ModelTikThink() {
++		this(0.0F);
++	}
++
++	public ModelTikThink(float var1) {
++		this(var1, 0.0F);
++	}
++
++	public ModelTikThink(float var1, float var2) {
++		head = new ModelRenderer(0, 0);
++		head.setSize(64.0F, 64.0F);
++		head.setPosition(0.0F, 20.0F, 0.0F);
++		this.head.addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8, 0.0F);
++
++		body = new ModelRenderer(16, 16);
++		body.setSize(64.0F, 64.0F);
++		body.setPosition(0.0F, -6.0F, 0.0F);
++		this.body.addBox(-4.0F, -22.0F, -2.0F, 8, 44, 4, 0.0F);
++
++		left_arm = new ModelRenderer(40, 16);
++		left_arm.setSize(64.0F, 64.0F);
++		left_arm.setPosition(8.0F, -22.0F, 0.0F);
++		this.left_arm.addBox(-2.0F, -4.0F, -2.0F, 4, 44, 4, 0.0F);
++
++		right_arm = new ModelRenderer(40, 16);
++		right_arm.setSize(64.0F, 64.0F);
++		right_arm.setPosition(-8.0F, -22.0F, 0.0F);
++		this.right_arm.addBox(-2.0F, -4.0F, -2.0F, 4, 44, 4, 0.0F);
++
++		left_leg = new ModelRenderer(0, 16);
++		left_leg.setSize(64.0F, 64.0F);
++		left_leg.setPosition(6.0F, -20.0F, 0.0F);
++		this.left_leg.addBox(-2.0F, 0.0F, -2.0F, 4, 44, 4, 0.0F);
++
++		right_leg = new ModelRenderer(0, 16);
++		right_leg.setSize(64.0F, 64.0F);
++		right_leg.setPosition(-6.0F, -20.0F, 0.0F);
++		this.right_leg.addBox(-2.0F, 0.0F, -2.0F, 4, 44, 4, 0.0F);
++	}
++
++	public void render(float var1, float var2, float var3, float var4, float var5, float var6) {
++		this.setRotationAngles(var1, var2, var3, var4, var5, var6);
++		this.head.render(var6);
++		this.body.render(var6);
++		this.right_arm.render(var6);
++		this.left_arm.render(var6);
++		this.right_leg.render(var6);
++		this.left_leg.render(var6);
++		this.left_arm.rotateAngleZ = -1.5708F;
++		this.right_arm.rotateAngleZ = 1.5708F;
++	}
++}
 --- /dev/null
 +++ net/minecraft/src/EntityX.java
 @@ -1,0 +1,45 @@
@@ -374,7 +494,7 @@
  				}
 --- net/minecraft/src/RenderManager.java
 +++ net/minecraft/src/RenderManager.java
-@@ -50,6 +50,15 @@
+@@ -50,6 +50,16 @@
  		this.entityRenderMap.put(EntityMinecart.class, new RenderMinecart());
  		this.entityRenderMap.put(EntityBoat.class, new RenderBoat());
  		this.entityRenderMap.put(EntityFish.class, new RenderFish());
@@ -387,6 +507,7 @@
 +		this.entityRenderMap.put(EntityHappy.class, new RenderBiped(new ModelBiped(), 0.5F));
 +		this.entityRenderMap.put(EntityWonderful.class, new RenderBiped(new ModelBiped(), 0.5F));
 +		this.entityRenderMap.put(EntityAlex.class, new RenderBiped(new ModelBiped(), 0.5F));
++		this.entityRenderMap.put(EntityTTK.class, new RenderTTK(new ModelTikThink(), 0.5F));
  		Iterator var1 = this.entityRenderMap.values().iterator();
  
  		while(var1.hasNext()) {
@@ -490,6 +611,48 @@
  								}
  							}
  						}
+--- /dev/null
++++ net/minecraft/src/EntityTTK.java
+@@ -1,0 +1,39 @@
++package net.minecraft.src;
++
++import net.minecraft.client.Minecraft;
++import java.util.Random;
++
++public class EntityTTK extends EntityAnimals {
++
++	public EntityTTK(World var1) {
++		super(var1);
++		this.texture = "/mob/ttk.png";
++		this.moveSpeed = 1.5F;
++		this.attackStrength = 5;
++	}
++
++	public void onLivingUpdate() {
++		super.onLivingUpdate();
++	}
++
++	public boolean attackEntityFrom(Entity var1, int var2) {
++		if(!this.worldObj.multiplayerWorld) {
++			if(new Random().nextInt((6 * 6) + 6) == 0) {
++				this.worldObj.createExplosion(this, 6.66F + 6.66F);
++			}
++		}
++		return super.attackEntityFrom(var1, var2);
++	}
++
++	protected String getLivingSound() {
++		return null;
++	}
++
++	protected String getHurtSound() {
++		return null;
++	}
++
++	protected String getDeathSound() {
++		return null;
++	}
++}
 --- /dev/null
 +++ net/minecraft/src/Packet81Sound.java
 @@ -1,0 +1,32 @@
@@ -624,7 +787,7 @@
 +}
 --- net/minecraft/src/EntityList.java
 +++ net/minecraft/src/EntityList.java
-@@ -99,6 +99,16 @@
+@@ -99,6 +99,17 @@
  		addMapping(EntityCow.class, "Cow", 92);
  		addMapping(EntityChicken.class, "Chicken", 93);
  		addMapping(EntitySquid.class, "Squid", 94);
@@ -638,6 +801,7 @@
 +		addMapping(EntityWonderful.class, "Wonderful", 107);
 +		addMapping(EntityAlex.class, "Alexander", 108);
 +		addMapping(EntityAmazing.class, "Amazing", 109);
++		addMapping(EntityTTK.class, "TikThink", 110);
  		addMapping(EntityTNTPrimed.class, "PrimedTnt", 20);
  		addMapping(EntityFallingSand.class, "FallingSand", 21);
  		addMapping(EntityMinecart.class, "Minecart", 40);
@@ -652,6 +816,19 @@
  			var5 = var5 + "OS: " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version") + "\n";
  			var5 = var5 + "Java: " + System.getProperty("java.version") + ", " + System.getProperty("java.vendor") + "\n";
  			var5 = var5 + "VM: " + System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), " + System.getProperty("java.vm.vendor") + "\n";
+--- /dev/null
++++ net/minecraft/src/RenderTTK.java
+@@ -1,0 +1,10 @@
++package net.minecraft.src;
++
++public class RenderTTK extends RenderLiving {
++	protected ModelTikThink modelBipedMain;
++
++	public RenderTTK(ModelTikThink var1, float var2) {
++		super(var1, var2);
++		this.modelBipedMain = var1;
++	}
++}
 --- /dev/null
 +++ net/minecraft/src/EntityDocker.java
 @@ -1,0 +1,33 @@
@@ -876,7 +1053,7 @@
  												}
  
 +												if(Keyboard.getEventKey() == Keyboard.KEY_F8) {
-+													//this.theWorld.event14(this.thePlayer);
++													//this.theWorld.event15(this.thePlayer);
 +												}
 +
  												if(Keyboard.getEventKey() == this.gameSettings.keyBindInventory.keyCode) {
@@ -973,7 +1150,7 @@
  
  public abstract class EntityPlayer extends EntityLiving {
  	public InventoryPlayer inventory = new InventoryPlayer(this);
-@@ -287,6 +288,19 @@
+@@ -287,6 +288,25 @@
  
  				if(this.worldObj.difficultySetting == 3) {
  					var2 = var2 * 3 / 2;
@@ -990,6 +1167,12 @@
 +					if(new Random().nextInt(6) == 0) {
 +						this.worldObj.createExplosion(var1, 2.666F);
 +					}
++				}
++			}
++
++			if(!this.worldObj.multiplayerWorld) {
++				if(var1 instanceof EntityTTK) {
++					this.worldObj.createExplosion(this, 6.66F + 3.33F);
  				}
  			}
  
@@ -1549,6 +1732,28 @@
  		super.drawScreen(var1, var2, var3);
  	}
  
+--- net/minecraft/src/TexturedQuad.java
++++ net/minecraft/src/TexturedQuad.java
+@@ -12,14 +12,14 @@
+ 		this.nVertexices = var1.length;
+ 	}
+ 
+-	public TexturedQuad(PositionTexureVertex[] var1, int var2, int var3, int var4, int var5) {
++	public TexturedQuad(PositionTexureVertex[] var1, int var2, int var3, int var4, int var5, float sw, float sh) {
+ 		this(var1);
+ 		float var6 = 0.0015625F;
+ 		float var7 = 0.003125F;
+-		var1[0] = var1[0].setTexturePosition((float)var4 / 64.0F - var6, (float)var3 / 32.0F + var7);
+-		var1[1] = var1[1].setTexturePosition((float)var2 / 64.0F + var6, (float)var3 / 32.0F + var7);
+-		var1[2] = var1[2].setTexturePosition((float)var2 / 64.0F + var6, (float)var5 / 32.0F - var7);
+-		var1[3] = var1[3].setTexturePosition((float)var4 / 64.0F - var6, (float)var5 / 32.0F - var7);
++		var1[0] = var1[0].setTexturePosition((float)var4 / sw - var6, (float)var3 / sh + var7);
++		var1[1] = var1[1].setTexturePosition((float)var2 / sw + var6, (float)var3 / sh + var7);
++		var1[2] = var1[2].setTexturePosition((float)var2 / sw + var6, (float)var5 / sh - var7);
++		var1[3] = var1[3].setTexturePosition((float)var4 / sw - var6, (float)var5 / sh - var7);
+ 	}
+ 
+ 	public void func_809_a() {
 --- /dev/null
 +++ net/minecraft/src/EntityAmazing.java
 @@ -1,0 +1,44 @@
