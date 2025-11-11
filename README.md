@@ -1,6 +1,7 @@
 <img alt="GitHub Downloads (all releases)" src="https://img.shields.io/github/downloads/YonCursedMC/Minecraft_Bullshit_Editon/total?style=for-the-badge">
 
 # Minecraft_Bullshit_Editon
+ひどい名前だね()
 
 # JP
 
