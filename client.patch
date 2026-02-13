@@ -454,7 +454,7 @@
  	private LogoEffectRandomizer[][] logoEffects;
  	private float updateCounter = 0.0F;
  	private String splashText = "missingno";
-@@ -58,13 +64,13 @@
+@@ -58,20 +64,20 @@
  		Calendar var1 = Calendar.getInstance();
  		var1.setTime(new Date());
  		if(var1.get(2) + 1 == 11 && var1.get(5) == 9) {
@@ -472,6 +472,14 @@
  		}
  
  		StringTranslate var2 = StringTranslate.getInstance();
+ 		int var4 = this.height / 4 + 48;
+ 		this.controlList.add(new GuiButton(1, this.width / 2 - 100, var4, var2.translateKey("menu.singleplayer")));
+ 		this.controlList.add(new GuiButton(2, this.width / 2 - 100, var4 + 24, var2.translateKey("menu.multiplayer")));
+-		this.controlList.add(new GuiButton(3, this.width / 2 - 100, var4 + 48, var2.translateKey("menu.mods")));
++		//this.controlList.add(new GuiButton(3, this.width / 2 - 100, var4 + 48, var2.translateKey("menu.mods")));
+ 		if(this.mc.hideQuitButton) {
+ 			this.controlList.add(new GuiButton(0, this.width / 2 - 100, var4 + 72, var2.translateKey("menu.options")));
+ 		} else {
 @@ -123,8 +129,8 @@
  		GL11.glScalef(var5, var5, var5);
  		this.drawCenteredString(this.fontRenderer, this.splashText, 0, -8, 16776960);
@@ -494,7 +502,7 @@
  				}
 --- net/minecraft/src/RenderManager.java
 +++ net/minecraft/src/RenderManager.java
-@@ -50,6 +50,16 @@
+@@ -50,6 +50,17 @@
  		this.entityRenderMap.put(EntityMinecart.class, new RenderMinecart());
  		this.entityRenderMap.put(EntityBoat.class, new RenderBoat());
  		this.entityRenderMap.put(EntityFish.class, new RenderFish());
@@ -508,6 +516,7 @@
 +		this.entityRenderMap.put(EntityWonderful.class, new RenderBiped(new ModelBiped(), 0.5F));
 +		this.entityRenderMap.put(EntityAlex.class, new RenderBiped(new ModelBiped(), 0.5F));
 +		this.entityRenderMap.put(EntityTTK.class, new RenderTTK(new ModelTikThink(), 0.5F));
++		this.entityRenderMap.put(EntitySkeletonX.class, new RenderBiped(new ModelSkeleton(), 0.5F));
  		Iterator var1 = this.entityRenderMap.values().iterator();
  
  		while(var1.hasNext()) {
@@ -787,7 +796,7 @@
 +}
 --- net/minecraft/src/EntityList.java
 +++ net/minecraft/src/EntityList.java
-@@ -99,6 +99,17 @@
+@@ -99,6 +99,18 @@
  		addMapping(EntityCow.class, "Cow", 92);
  		addMapping(EntityChicken.class, "Chicken", 93);
  		addMapping(EntitySquid.class, "Squid", 94);
@@ -802,6 +811,7 @@
 +		addMapping(EntityAlex.class, "Alexander", 108);
 +		addMapping(EntityAmazing.class, "Amazing", 109);
 +		addMapping(EntityTTK.class, "TikThink", 110);
++		addMapping(EntitySkeletonX.class, "SkeletonX", 111);
  		addMapping(EntityTNTPrimed.class, "PrimedTnt", 20);
  		addMapping(EntityFallingSand.class, "FallingSand", 21);
  		addMapping(EntityMinecart.class, "Minecart", 40);

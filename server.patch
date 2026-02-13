@@ -940,7 +940,7 @@
 +}
 --- net/minecraft/src/EntityList.java
 +++ net/minecraft/src/EntityList.java
-@@ -80,6 +80,17 @@
+@@ -80,6 +80,18 @@
  		addMapping(EntityCow.class, "Cow", 92);
  		addMapping(EntityChicken.class, "Chicken", 93);
  		addMapping(EntitySquid.class, "Squid", 94);
@@ -955,6 +955,7 @@
 +		addMapping(EntityAlex.class, "Alexander", 108);
 +		addMapping(EntityAmazing.class, "Amazing", 109);
 +		addMapping(EntityTTK.class, "TikThink", 110);
++		addMapping(EntitySkeletonX.class, "SkeletonX", 111);
  		addMapping(EntityTNTPrimed.class, "PrimedTnt", 20);
  		addMapping(EntityFallingSand.class, "FallingSand", 21);
  		addMapping(EntityMinecart.class, "Minecart", 40);
@@ -1229,6 +1230,28 @@
  		this.noAnimals = this.propertyManagerObj.getBooleanProperty("spawn-animals", true);
  		this.field_9011_n = this.propertyManagerObj.getBooleanProperty("pvp", true);
  		InetAddress var3 = null;
+@@ -118,8 +118,8 @@
+ 		short var2 = 196;
+ 		long var3 = System.currentTimeMillis();
+ 
+-		for(int var5 = -var2; var5 <= var2 && this.field_6025_n; var5 += 16) {
+-			for(int var6 = -var2; var6 <= var2 && this.field_6025_n; var6 += 16) {
++		for(int var5 = -var2; var5 <= var2 /**&& this.field_6025_n*/; var5 += 16) {
++			for(int var6 = -var2; var6 <= var2 /**&& this.field_6025_n*/; var6 += 16) {
+ 				long var7 = System.currentTimeMillis();
+ 				if(var7 < var3) {
+ 					var3 = var7;
+@@ -134,8 +134,8 @@
+ 
+ 				this.worldMngr.field_20911_y.loadChunk(this.worldMngr.spawnX + var5 >> 4, this.worldMngr.spawnZ + var6 >> 4);
+ 
+-				while(this.worldMngr.func_6156_d() && this.field_6025_n) {
+-				}
++				//while(this.worldMngr.func_6156_d() && this.field_6025_n) {
++				//}
+ 			}
+ 		}
+ 
 --- net/minecraft/src/WorldGenTaiga1.java
 +++ net/minecraft/src/WorldGenTaiga1.java
 @@ -52,7 +52,7 @@
